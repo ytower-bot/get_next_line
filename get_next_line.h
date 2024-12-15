@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 
+// get_next_line functions
 char	*get_next_line(int fd);
 
 #endif
