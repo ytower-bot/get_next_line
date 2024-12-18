@@ -6,7 +6,7 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 00:24:43 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/18 01:27:23 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/18 10:22:54 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,10 @@
 
 static char	*extract_new_line(char	**buffer)
 {
-	while (*buffer)
-	{
-		if ()
-	}
+	return (*buffer);
 }
 
-static int	find_new_line(char **buffer)
+static int	find_new_line(char *buffer[])
 {
 	int	i;
 
@@ -50,10 +47,10 @@ static int	read_line(int fd, char **static_buffer)
 			return (-1);
 		if (bytes_read == 0)
 			return NULL;
-		new_static_buffer = ft_strjoin(static_buffer, buffer);
+		new_static_buffer = ft_strjoin(*static_buffer, buffer);
 		free(buffer);
-		static_buffer = new_static_buffer;
-		if (find_new_line(buffer))
+		*static_buffer = new_static_buffer;
+		if (find_new_line(&buffer))
 			return (0);
 	}
 }
