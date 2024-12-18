@@ -6,33 +6,67 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 00:24:43 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/17 00:53:25 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/18 01:27:23 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "libft.h"
 
-static char *find_new_line(char *str, int fd);
-static char	*read_file(char	*str, int fd)
+#define BUF_SIZE 1
+
+static char	*extract_new_line(char	**buffer)
 {
-	int		r;
-	char	*f_str;
+	while (*buffer)
+	{
+		if ()
+	}
+}
 
+static int	find_new_line(char **buffer)
+{
+	int	i;
+
+	i = 0;
+	while (*buffer)
+	{
+		if (*buffer[i] == '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	read_line(int fd, char **static_buffer)
+{
+	static char	*new_static_buffer;
+	int		bytes_read;
+	
 	while (1)
 	{
-		// r = read
-		if (r == 0)
-			return (str);
-		if (r == -1)
-			return ("error");
-		find_new_line(f_str, fd);
+		char	buffer[BUF_SIZE];
+		bytes_read = read(fd, buffer, BUF_SIZE);
+		if (bytes_read == -1)
+			return (-1);
+		if (bytes_read == 0)
+			return NULL;
+		new_static_buffer = ft_strjoin(static_buffer, buffer);
+		free(buffer);
+		static_buffer = new_static_buffer;
+		if (find_new_line(buffer))
+			return (0);
 	}
-	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	char	*buf[1024];
-
-	return (read_file(*buf, fd));
+	char		buffer[BUF_SIZE];
+	static char	*static_buffer;
+	
+	if (!buffer || !find_new_line(buffer))
+		if (read_line(fd, &static_buffer) == -1)
+			return ("error");
+	if (buffer != NULL)
+		return (extract_new_line(&buffer));
+	return (0);
 }
