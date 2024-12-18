@@ -6,14 +6,14 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 00:24:43 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/18 10:22:54 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:39:02 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "libft.h"
 
-#define BUF_SIZE 1
+#define BUF_SIZE 10
 
 static char	*extract_new_line(char	**buffer)
 {
