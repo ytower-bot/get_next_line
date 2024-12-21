@@ -6,17 +6,37 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/21 20:01:56 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/21 20:33:17 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "libft.h"
-#include <stdio.h>
+#include "get_next_line_utils.h"
 
 #define BUFFER_SIZE 10
 
-char	*extract_new_line(char	**buffer)
+static char	*ft_strchr(const char *s, int c)
+{
+	int				i;
+	unsigned char	p;
+
+	i = 0;
+	p = c;
+	if (p == '\0')
+	{
+		i = ft_strlen(s);
+		return ((char *)&s[i++]);
+	}
+	while (s[i])
+	{
+		if (s[i] == p)
+			return ((char *)s + i);
+		i++;
+	}
+	return (NULL);
+}
+
+static char	*extract_new_line(char	**buffer)
 {
 	size_t		index;
 	size_t		len;
@@ -38,7 +58,7 @@ char	*extract_new_line(char	**buffer)
 	return (line);
 }
 
-char	*read_line(char *static_buffer, int fd)
+static char	*read_line(char *static_buffer, int fd)
 {
 	int		bytes_read;
 	char	buffer[BUFFER_SIZE + 1];
@@ -80,6 +100,7 @@ char	*get_next_line(int	fd)
 }
 
 #include <fcntl.h>
+#include <stdio.h>
 
 int	main(void)
 {
@@ -91,7 +112,7 @@ int	main(void)
 	fd = open("text.txt", O_RDONLY);
 	
 	do {
-		str = get_next_line(0);
+		str = get_next_line(fd);
 		if (str == NULL)
 			break;
 		printf("%s", str);

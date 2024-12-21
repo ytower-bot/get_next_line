@@ -6,7 +6,7 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 02:28:15 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/17 22:06:08 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/21 20:30:59 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-// get_next_line functions
 char	*get_next_line(int fd);
 
 #endif
