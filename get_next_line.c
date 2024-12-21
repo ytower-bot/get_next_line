@@ -5,65 +5,98 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 00:24:43 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/18 13:39:02 by yfaustin         ###   ########.fr       */
+/*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
+/*   Updated: 2024/12/21 20:01:56 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "libft.h"
+#include <stdio.h>
 
-#define BUF_SIZE 10
+#define BUFFER_SIZE 10
 
-static char	*extract_new_line(char	**buffer)
+char	*extract_new_line(char	**buffer)
 {
-	return (*buffer);
-}
+	size_t		index;
+	size_t		len;
+	char		*line;
 
-static int	find_new_line(char *buffer[])
-{
-	int	i;
-
-	i = 0;
-	while (*buffer)
+	len = ft_strlen(*buffer);
+	index = 0;
+	while (buffer[0][index])
 	{
-		if (*buffer[i] == '\n')
-			return (0);
-		i++;
+		if (buffer[0][index] == '\n')
+			break;
+		index++;
 	}
-	return (1);
+	line = ft_substr(*buffer, 0, index + 1);
+	if (len == index + 1)
+		*buffer = NULL;
+	else
+		*buffer = ft_substr(*buffer, index + 1, len);
+	return (line);
 }
 
-static int	read_line(int fd, char **static_buffer)
+char	*read_line(char *static_buffer, int fd)
 {
-	static char	*new_static_buffer;
 	int		bytes_read;
-	
-	while (1)
+	char	buffer[BUFFER_SIZE + 1];
+	char	*new_static_buffer;
+
+	bytes_read = 1;
+	while (!(ft_strchr(buffer, '\n')))
 	{
-		char	buffer[BUF_SIZE];
-		bytes_read = read(fd, buffer, BUF_SIZE);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
-			return (-1);
+			return (free(static_buffer), NULL);
 		if (bytes_read == 0)
-			return NULL;
-		new_static_buffer = ft_strjoin(*static_buffer, buffer);
-		free(buffer);
-		*static_buffer = new_static_buffer;
-		if (find_new_line(&buffer))
-			return (0);
+			break;
+		buffer[bytes_read] = '\0';
+		if (static_buffer == NULL)
+			static_buffer = ft_strdup(buffer);
+		else
+		{
+			new_static_buffer = ft_strjoin(static_buffer, buffer);
+			free(static_buffer);
+			static_buffer = new_static_buffer;
+		}
 	}
+	return (static_buffer);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int	fd)
 {
-	char		buffer[BUF_SIZE];
-	static char	*static_buffer;
+	static char 	*static_buffer;
+	char			*line;
+
+	if (fd < 0 || BUFFER_SIZE < 0)
+		return (NULL);
+	static_buffer = read_line(static_buffer, fd);
+	if (static_buffer == NULL)
+		return (NULL);
+	line = extract_new_line(&static_buffer);
+	return (line);
+}
+
+#include <fcntl.h>
+
+int	main(void)
+{
+	int		fd;
+	int		bytes_read;
+	char	buffer[BUFFER_SIZE];
+	char	*str;
+
+	fd = open("text.txt", O_RDONLY);
 	
-	if (!buffer || !find_new_line(buffer))
-		if (read_line(fd, &static_buffer) == -1)
-			return ("error");
-	if (buffer != NULL)
-		return (extract_new_line(&buffer));
+	do {
+		str = get_next_line(0);
+		if (str == NULL)
+			break;
+		printf("%s", str);
+	} while (str);
+
+	close(fd);
 	return (0);
 }
