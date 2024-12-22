@@ -6,14 +6,16 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/21 21:30:05 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:54:20 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "get_next_line_utils.h"
 
-#define BUF_SIZE 42
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
 static char	*ft_strchr(const char *s, int c)
 {
@@ -67,18 +69,18 @@ static char	*extract_new_line(char	**buffer)
 static char	*read_line(char *static_buffer, int fd)
 {
 	int		bytes_read;
-	char	buffer[BUF_SIZE + 1];
+	char	buffer[BUFFER_SIZE + 1];
 	char	*new_static_buffer;
 
 	bytes_read = 1;
 	buffer[0] = '\0';
 	while (!(ft_strchr(buffer, '\n')))
 	{
-		bytes_read = read(fd, buffer, BUF_SIZE);
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 			return (free(static_buffer), NULL);
 		if (bytes_read == 0)
-			break;
+			break ;
 		buffer[bytes_read] = '\0';
 		if (static_buffer == NULL)
 			static_buffer = ft_strdup(buffer);
@@ -92,12 +94,12 @@ static char	*read_line(char *static_buffer, int fd)
 	return (static_buffer);
 }
 
-char	*get_next_line(int	fd)
+char	*get_next_line(int fd)
 {
-	static char 	*static_buffer;
-	char			*line;
+	static char	*static_buffer;
+	char		*line;
 
-	if (fd < 0 || BUF_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE < 0)
 		return (NULL);
 	static_buffer = read_line(static_buffer, fd);
 	if (static_buffer == NULL)
@@ -106,6 +108,7 @@ char	*get_next_line(int	fd)
 	return (line);
 }
 
+/*
 #include <fcntl.h>
 #include <stdio.h>
 
@@ -127,4 +130,4 @@ int	main(void)
 
 	close(fd);
 	return (0);
-}
+}*/

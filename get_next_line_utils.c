@@ -6,7 +6,7 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:03:59 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/21 20:29:43 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:54:58 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	size_t	len_s1;
 	size_t	len;
 	size_t	i;
-	
+
 	len_s1 = ft_strlen(s1);
 	len = len_s1 + ft_strlen(s2);
 	str = malloc(sizeof(char) * len + 1);
