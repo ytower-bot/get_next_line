@@ -6,14 +6,14 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/21 20:33:17 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:30:05 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "get_next_line_utils.h"
 
-#define BUFFER_SIZE 10
+#define BUF_SIZE 42
 
 static char	*ft_strchr(const char *s, int c)
 {
@@ -41,33 +41,40 @@ static char	*extract_new_line(char	**buffer)
 	size_t		index;
 	size_t		len;
 	char		*line;
+	char		*new_buffer;
 
 	len = ft_strlen(*buffer);
 	index = 0;
-	while (buffer[0][index])
-	{
-		if (buffer[0][index] == '\n')
-			break;
+	while (buffer[0][index] && buffer[0][index] != '\n')
 		index++;
-	}
-	line = ft_substr(*buffer, 0, index + 1);
-	if (len == index + 1)
+	if (buffer[0][index] == '\n')
+		index++;
+	line = ft_substr(*buffer, 0, index);
+	if (len == index)
+	{
+		free(*buffer);
 		*buffer = NULL;
+	}
 	else
-		*buffer = ft_substr(*buffer, index + 1, len);
+	{
+		new_buffer = ft_substr(*buffer, index, len);
+		free(*buffer);
+		*buffer = new_buffer;
+	}
 	return (line);
 }
 
 static char	*read_line(char *static_buffer, int fd)
 {
 	int		bytes_read;
-	char	buffer[BUFFER_SIZE + 1];
+	char	buffer[BUF_SIZE + 1];
 	char	*new_static_buffer;
 
 	bytes_read = 1;
+	buffer[0] = '\0';
 	while (!(ft_strchr(buffer, '\n')))
 	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		bytes_read = read(fd, buffer, BUF_SIZE);
 		if (bytes_read == -1)
 			return (free(static_buffer), NULL);
 		if (bytes_read == 0)
@@ -90,7 +97,7 @@ char	*get_next_line(int	fd)
 	static char 	*static_buffer;
 	char			*line;
 
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUF_SIZE < 0)
 		return (NULL);
 	static_buffer = read_line(static_buffer, fd);
 	if (static_buffer == NULL)
@@ -106,17 +113,17 @@ int	main(void)
 {
 	int		fd;
 	int		bytes_read;
-	char	buffer[BUFFER_SIZE];
 	char	*str;
 
 	fd = open("text.txt", O_RDONLY);
-	
-	do {
+	while (1)
+	{
 		str = get_next_line(fd);
 		if (str == NULL)
 			break;
 		printf("%s", str);
-	} while (str);
+		free(str);
+	}
 
 	close(fd);
 	return (0);
