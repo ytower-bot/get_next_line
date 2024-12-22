@@ -6,7 +6,7 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/21 21:54:20 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:02:46 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,27 +107,3 @@ char	*get_next_line(int fd)
 	line = extract_new_line(&static_buffer);
 	return (line);
 }
-
-/*
-#include <fcntl.h>
-#include <stdio.h>
-
-int	main(void)
-{
-	int		fd;
-	int		bytes_read;
-	char	*str;
-
-	fd = open("text.txt", O_RDONLY);
-	while (1)
-	{
-		str = get_next_line(fd);
-		if (str == NULL)
-			break;
-		printf("%s", str);
-		free(str);
-	}
-
-	close(fd);
-	return (0);
-}*/
