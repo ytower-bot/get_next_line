@@ -6,7 +6,7 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:03:59 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/22 22:28:24 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:34:40 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,20 +91,4 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	}
 	str[len_s1 + i] = '\0';
 	return (str);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size == 0)
-		return (ft_strlen(src));
-	while (i < (size - 1) && src[i])
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
 }
