@@ -6,7 +6,7 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:03:59 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/21 21:54:58 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:28:24 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,41 @@ size_t	ft_strlen(const char *s)
 	return (len);
 }
 
-char	*ft_strdup(const char *s)
+char	*ft_strchr(const char *s, int c)
+{
+	int				i;
+	unsigned char	p;
+
+	i = 0;
+	p = c;
+	if (p == '\0')
+	{
+		i = ft_strlen(s);
+		return ((char *)&s[i++]);
+	}
+	while (s[i])
+	{
+		if (s[i] == p)
+			return ((char *)s + i);
+		i++;
+	}
+	return (NULL);
+}
+
+char	*ft_strndup(const char *s, size_t len)
 {
 	char	*str_dup;
-	size_t	len;
+	size_t	s_len;
 	size_t	i;
 
+	s_len = ft_strlen(s);
 	if (s == NULL)
 		return (NULL);
-	len = ft_strlen(s);
-	str_dup = malloc((len + 1) * sizeof(char));
+	str_dup = malloc((s_len + 1) * sizeof(char));
 	if (str_dup == NULL)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	while (i < s_len && i < len)
 	{
 		str_dup[i] = s[i];
 		i++;
@@ -86,21 +107,4 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	}
 	dst[i] = '\0';
 	return (ft_strlen(src));
-}
-
-char	*ft_substr(const char *s, unsigned int start, size_t len)
-{
-	char	*sub;
-
-	if (!s)
-		return (NULL);
-	if (ft_strlen(s) < start)
-		return (ft_strdup(""));
-	if (ft_strlen(s + start) < len)
-		len = ft_strlen(s + start);
-	sub = malloc(sizeof(char) * (len + 1));
-	if (sub == NULL)
-		return (NULL);
-	ft_strlcpy(sub, s + start, len + 1);
-	return (sub);
 }
