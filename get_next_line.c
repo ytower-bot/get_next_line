@@ -6,37 +6,17 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/21 22:02:46 by yfaustin         ###   ########.fr       */
+/*   Updated: 2024/12/22 22:25:57 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "get_next_line_utils.h"
+#include <unistd.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
 #endif
-
-static char	*ft_strchr(const char *s, int c)
-{
-	int				i;
-	unsigned char	p;
-
-	i = 0;
-	p = c;
-	if (p == '\0')
-	{
-		i = ft_strlen(s);
-		return ((char *)&s[i++]);
-	}
-	while (s[i])
-	{
-		if (s[i] == p)
-			return ((char *)s + i);
-		i++;
-	}
-	return (NULL);
-}
 
 static char	*extract_new_line(char	**buffer)
 {
@@ -51,7 +31,7 @@ static char	*extract_new_line(char	**buffer)
 		index++;
 	if (buffer[0][index] == '\n')
 		index++;
-	line = ft_substr(*buffer, 0, index);
+	line = ft_strndup(*buffer, index);
 	if (len == index)
 	{
 		free(*buffer);
@@ -59,7 +39,7 @@ static char	*extract_new_line(char	**buffer)
 	}
 	else
 	{
-		new_buffer = ft_substr(*buffer, index, len);
+		new_buffer = ft_strndup(*buffer + index, len);
 		free(*buffer);
 		*buffer = new_buffer;
 	}
@@ -83,7 +63,7 @@ static char	*read_line(char *static_buffer, int fd)
 			break ;
 		buffer[bytes_read] = '\0';
 		if (static_buffer == NULL)
-			static_buffer = ft_strdup(buffer);
+			static_buffer = ft_strndup(buffer, -1);
 		else
 		{
 			new_static_buffer = ft_strjoin(static_buffer, buffer);
