@@ -6,19 +6,26 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2025/01/02 21:19:46 by yfaustin         ###   ########.fr       */
+/*   Updated: 2025/01/03 14:40:42 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "get_next_line_utils.h"
-#include <unistd.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
 #endif
 
-static char	*extract_new_line(char	**buffer)
+static char	*ft_malloc(char **buffer)
+{
+	*buffer = malloc(sizeof(char *) * (BUFFER_SIZE + 1));
+	if (!*buffer)
+		return (NULL);
+	return (*buffer);
+}
+
+static char	*extract_new_line(char **buffer)
 {
 	size_t		index;
 	size_t		len;
@@ -52,9 +59,7 @@ static char	*read_line(char *static_buffer, int fd)
 	char	*buffer;
 	char	*new_static_buffer;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	if (!buffer)
-		return (NULL);
+	ft_malloc(&buffer);
 	bytes_read = 1;
 	buffer[0] = '\0';
 	while (!(ft_strchr(buffer, '\n')))
@@ -74,8 +79,7 @@ static char	*read_line(char *static_buffer, int fd)
 			static_buffer = new_static_buffer;
 		}
 	}
-	free(buffer);
-	return (static_buffer);
+	return (free(buffer), static_buffer);
 }
 
 char	*get_next_line(int fd)
