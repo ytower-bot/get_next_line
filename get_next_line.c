@@ -6,7 +6,7 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/22 22:25:57 by yfaustin         ###   ########.fr       */
+/*   Updated: 2025/01/02 21:19:46 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,19 @@ static char	*extract_new_line(char	**buffer)
 static char	*read_line(char *static_buffer, int fd)
 {
 	int		bytes_read;
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 	char	*new_static_buffer;
 
+	buffer = malloc(BUFFER_SIZE + 1);
+	if (!buffer)
+		return (NULL);
 	bytes_read = 1;
 	buffer[0] = '\0';
 	while (!(ft_strchr(buffer, '\n')))
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
-			return (free(static_buffer), NULL);
+			return (free(static_buffer), free(buffer), NULL);
 		if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = '\0';
@@ -71,6 +74,7 @@ static char	*read_line(char *static_buffer, int fd)
 			static_buffer = new_static_buffer;
 		}
 	}
+	free(buffer);
 	return (static_buffer);
 }
 
