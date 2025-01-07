@@ -6,16 +6,11 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2025/01/03 14:40:42 by yfaustin         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:29:21 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include "get_next_line_utils.h"
-
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 42
-#endif
 
 static char	*ft_malloc(char **buffer)
 {
