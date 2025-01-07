@@ -6,11 +6,11 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 20:03:59 by yfaustin          #+#    #+#             */
-/*   Updated: 2024/12/22 22:34:40 by yfaustin         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:29:02 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_utils.h"
+#include "get_next_line.h"
 
 size_t	ft_strlen(const char *s)
 {
