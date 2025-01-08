@@ -6,18 +6,20 @@
 /*   By: yfaustin <yfaustin@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 10:24:30 by yfaustin          #+#    #+#             */
-/*   Updated: 2025/01/07 19:29:21 by yfaustin         ###   ########.fr       */
+/*   Updated: 2025/01/07 22:10:14 by yfaustin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*ft_malloc(char **buffer)
+static char	*append_buffer(char	**static_buffer, char **buffer)
 {
-	*buffer = malloc(sizeof(char *) * (BUFFER_SIZE + 1));
-	if (!*buffer)
-		return (NULL);
-	return (*buffer);
+	char	*new_static_buffer;
+
+	new_static_buffer = ft_strjoin(*static_buffer, *buffer);
+	free(*static_buffer);
+	*static_buffer = new_static_buffer;
+	return (*static_buffer);
 }
 
 static char	*extract_new_line(char **buffer)
@@ -52,9 +54,10 @@ static char	*read_line(char *static_buffer, int fd)
 {
 	int		bytes_read;
 	char	*buffer;
-	char	*new_static_buffer;
 
-	ft_malloc(&buffer);
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (!buffer)
+		return (NULL);
 	bytes_read = 1;
 	buffer[0] = '\0';
 	while (!(ft_strchr(buffer, '\n')))
@@ -68,11 +71,7 @@ static char	*read_line(char *static_buffer, int fd)
 		if (static_buffer == NULL)
 			static_buffer = ft_strndup(buffer, -1);
 		else
-		{
-			new_static_buffer = ft_strjoin(static_buffer, buffer);
-			free(static_buffer);
-			static_buffer = new_static_buffer;
-		}
+			append_buffer(&static_buffer, &buffer);
 	}
 	return (free(buffer), static_buffer);
 }
