@@ -29,7 +29,7 @@ Now that we know everything that's new. Let's see how the code looks like.
 
 Since our program must be able to return one line at a time, we will have to read the content of the file in *chunks* of bytes, while looking for a newline.
 
-![example 1]("1 - read_line.png")
+![example 1](1.png)
 
 Once it finds a newline, it stops reading the file and returns the block of text read by the function. However, if it doesn't find a newline, it stores the bytes read in a static variable and loops again.
 
@@ -38,7 +38,7 @@ Once it finds a newline, it stops reading the file and returns the block of text
 
 The name of this function is self-explanatory. It simply searches for a newline in the buffer and returns it, from the start up to the first newline it encounters.
 
-![example 2]("2 - extract_new_line.png")
+![example 2](2.png)
 
 Additionally, it will remove the the returned part and keep the rest of string in the same variable, taking the pointer to the first character right after the end of the line just returned.
 
@@ -47,7 +47,7 @@ Additionally, it will remove the the returned part and keep the rest of string i
 
 The bonus of this project consists in having a way of handling multiple file descriptors at the same time, as well as using only one static variable. Since we're already using just one static variable, the only thing that we have to do is adjust our main function to handle multiple file descriptors.
 
-![example 3](3 - bonus main.png)
+![example 3](3.png)
 
 ## References
 mostly man 3 and chat gpt
