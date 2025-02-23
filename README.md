@@ -1,11 +1,7 @@
-
-**Tags:** [[static variables]] [[memory management]] [[file manipulation]]
-**Status:** #done 
 # Project
 
 The project consists in a function called get_next_line that will be used to read the content of a file returning **one line at a time**. This function will later be added to libft to be used in future projects.
 
-- #### [repo](https://github.com/ytower-bot/get_next_line)
 - #### [subject](https://cdn.intra.42.fr/pdf/pdf/146982/en.subject.pdf)
 
 # Mandatory Part
