@@ -13,7 +13,7 @@ Implement the ``get_next_line`` function, which reads and returns one line at a 
 	- #### Static variables
 		A static variable is a variable that keeps its value between multiple function calls. It is initialized once (and is 0 by default) and persists until the end of the program's execution
 	- #### File manipulation
-		For this project, we're going to need to understand the basics of file manipulation. We will have to know how to open and close a file, as well as reading its content. In order to do that, we will use the following [[syscalls]]:
+		For this project, we're going to need to understand the basics of file manipulation. We will have to know how to open and close a file, as well as reading its content. In order to do that, we will use the following syscalls:
 		
 			open(), close() and read()
 
